@@ -14,7 +14,7 @@ public interface AccountInfo {
      *
      * @return the unique ID assigned to this user.
      */
-    UUID getUniqueId();
+    int getId();
 
     /**
      * @return the user's Github username.

@@ -11,14 +11,14 @@ import java.util.UUID;
  */
 public class SimpleAccountInfo implements AccountInfo {
 
-    private final UUID uuid;
+    private final int id;
 
     private final String username;
 
     private final String email;
 
-    public SimpleAccountInfo(UUID uuid, String username, String email) {
-        this.uuid = uuid;
+    public SimpleAccountInfo(int id, String username, String email) {
+        this.id = id;
         this.username = username;
         this.email = email;
     }
@@ -34,13 +34,13 @@ public class SimpleAccountInfo implements AccountInfo {
     }
 
     @Override
-    public UUID getUniqueId() {
-        return uuid;
+    public int getId() {
+        return id;
     }
 
     @Override
     public String toString() {
-        return username + "( " + uuid + ", " + ", " + email + " )";
+        return username + "( " + id + ", " + ", " + email + " )";
     }
 
 }

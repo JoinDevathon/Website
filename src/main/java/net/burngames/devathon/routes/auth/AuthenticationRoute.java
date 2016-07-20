@@ -93,6 +93,8 @@ public class AuthenticationRoute implements TypedRoute<AccountInfo> {
         String username = userJson.getString("login");
         String email = userJson.getString("email");
 
-        return new SimpleAccountInfo(UUID.randomUUID(), username, email);
+        final AccountInfo account = Website.getUserDatabase().addUser(username, email);
+        // todo load account page
+        return null;
     }
 }

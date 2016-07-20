@@ -1,5 +1,6 @@
 package net.burngames.devathon;
 
+import net.burngames.devathon.persistence.users.UserDatabase;
 import net.burngames.devathon.routes.RegisterRoute;
 import net.burngames.devathon.routes.RouteException;
 import net.burngames.devathon.routes.RouteExceptionRoute;
@@ -18,6 +19,7 @@ import java.util.Properties;
 public class Website {
 
     private static Properties properties;
+    private static UserDatabase userDatabase;
 
     public static void main(String[] strings) throws IOException {
         if (isDevelopment()) {
@@ -33,6 +35,8 @@ public class Website {
         } finally {
             input.close();
         }
+        System.out.println("Loading database..");
+        Website.userDatabase = new UserDatabase();
 
         System.out.println("Starting in dev mode: " + isDevelopment());
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "1234"));
@@ -69,6 +73,10 @@ public class Website {
 
     public static Properties getProperties() {
         return properties;
+    }
+
+    public static UserDatabase getUserDatabase() {
+        return userDatabase;
     }
 
     public static boolean isDevelopment() {
