@@ -1,5 +1,6 @@
 package net.burngames.devathon.persistence.base;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.pool.HikariPool;
@@ -23,7 +24,7 @@ public abstract class HikariDatabase implements Database {
 
     private final HikariDataSource pool;
 
-    public HikariDatabase(int poolSize, String tableName, String... initQueries) {
+    public HikariDatabase(int poolSize, String... initQueries) {
         Properties pr = Website.getProperties();
 
         String url = pr.getProperty("database.jdbc.url"),
@@ -36,6 +37,7 @@ public abstract class HikariDatabase implements Database {
         conf.setUsername(user);
         conf.setPassword(pass);
         conf.setMaximumPoolSize(poolSize);
+        conf.setDataSource(new MysqlDataSource());
 
         pool = new HikariDataSource(conf);
 

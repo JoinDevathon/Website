@@ -12,10 +12,11 @@ import java.sql.ResultSet;
 
 public class UserDatabase extends HikariDatabase {
 
-    private static final String CREATE_USERS_TABLE = "CREATE TABLE IF NOT EXISTS users(" +
-            "id INT(256) NOT NULL AUTO_INCREMENT, " +
-            "username VARCHAR(256), " +
-            "email VARCHAR(256), " +
+    private static final String CREATE_DATABASE = "CREATE DATABASE IF NOT EXISTS `devathon`";
+    private static final String CREATE_USERS_TABLE = "CREATE TABLE IF NOT EXISTS `devathon`.`users`(" +
+            "id INT(255) NOT NULL AUTO_INCREMENT, " +
+            "username VARCHAR(255), " +
+            "email VARCHAR(255), " +
             "PRIMARY KEY(id)," +
             "UNIQUE INDEX `id` (`id`)" +
             ")" +
@@ -26,7 +27,7 @@ public class UserDatabase extends HikariDatabase {
     private static final String SELECT_USER_BY_USERNAME = "SELECT `id`, `username`, `email` FROM `users` WHERE `username` = ?";
 
     public UserDatabase() {
-        super(Runtime.getRuntime().availableProcessors(), "users", CREATE_USERS_TABLE);
+        super(Runtime.getRuntime().availableProcessors(), CREATE_DATABASE, CREATE_USERS_TABLE);
     }
 
     public AccountInfo addUser(String username, String email) {
