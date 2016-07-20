@@ -1,0 +1,173 @@
+body, html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Neuton', serif;
+    margin: 0;
+}
+
+h1 {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+p, a, b, i {
+    font-family: 'Neuton', serif;
+    font-size: 22px;
+}
+
+a {
+    color: #DDA0DD;
+}
+
+label {
+    display: block;
+    font-size: 18px;
+}
+
+input, select, button {
+    margin-bottom: 30px;
+    font-size: 28px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 4px 6px;
+}
+
+.container {
+    display: block;
+    width: 1280px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 12px;
+    box-sizing: border-box;
+}
+
+.header {
+    color: #fff;
+    background: #459280; /* Old Browsers */
+    background: -webkit-linear-gradient(bottom left, #459280, #00ced1); /*Safari 5.1-6*/
+    background: -o-linear-gradient(bottom left, #459280, #00ced1); /*Opera 11.1-12*/
+    background: -moz-linear-gradient(bottom left, #459280, #00ced1); /*Fx 3.6-15*/
+    background: linear-gradient(bottom left, #459280, #00ced1); /*Standard*/
+}
+
+.header-main {
+    text-align: center;
+    padding: 100px 40px;
+}
+
+.header-title {
+    font-size: 64px;
+    font-family: 'Work Sans', monospace;
+}
+
+.header-desc {
+    font-size: 24px;
+}
+
+.navbar-tabs {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0 8px;
+    text-align: center;
+    font-size: 0; /* fixes an issue where the browser renders a space between the tabs. a font size of 0 makes the space basically invisible */
+}
+
+.navbar-tab {
+    display: inline-block;
+    font-size: 24px;
+    padding: 13px 15px;
+    text-decoration: none;
+
+    color: #fff;
+    transition: background-color 0.2s ease-out;
+}
+
+.navbar-tab:hover, .navbar-tab.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.box {
+    padding: 30px;
+}
+
+.box-blue {
+    background: #7ddfdf; /* Old Browsers */
+    background: -webkit-linear-gradient(top left, #518a8a, #00aeb0); /*Safari 5.1-6*/
+    background: -o-linear-gradient(top left, #518a8a, #00aeb0); /*Opera 11.1-12*/
+    background: -moz-linear-gradient(top left, #518a8a, #00aeb0); /*Fx 3.6-15*/
+    background: linear-gradient(top left, #518a8a, #00aeb0); /*Standard*/
+    color: #fff;
+}
+
+.box-pink {
+    color: #fff;
+    background: #c790c7;
+}
+
+.countdown {
+    margin-top: 38px;
+    font-family: 'Work Sans', monospace;
+}
+
+.countdown-box {
+    display: inline-block;
+}
+
+.countdown-title {
+    margin-bottom: 4px;
+}
+
+.countdown-value {
+    font-size: 48px;
+    margin: 5px 12px;
+}
+
+.countdown-colon {
+    font-size: 48px;
+    display: inline;
+}
+
+.sponsor {
+    display: block;
+    min-height: 60px;
+    background-color: pink;
+    margin-bottom: 30px;
+}
+
+.sponsor-gold {
+    background-color: gold;
+}
+
+.sponsor-silver {
+    background-color: silver;
+}
+
+.sponsor-bronze {
+    background-color: sandybrown;
+}
+
+.center {
+    text-align: center;
+}
+
+@media (min-width: 1080px) {
+    .navbar-tabs {
+        height: 80px;
+    }
+
+    .navbar-tab {
+        padding: 26px 30px;
+    }
+
+    .container {
+        padding: 0 50px;
+    }
+}
