@@ -1,6 +1,7 @@
 package net.burngames.devathon.routes.auth;
 
 import java.util.Base64;
+import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -23,7 +24,7 @@ import com.mashape.unirest.http.Unirest;
 /**
  * @author PaulBGD
  */
-public class AuthenticationRoute implements TypedRoute<UserInfo> {
+public class AuthenticationRoute implements TypedRoute<AccountInfo> {
     private final byte[] encryptionKey;
     private final byte[] statePrefix;
 
@@ -39,7 +40,7 @@ public class AuthenticationRoute implements TypedRoute<UserInfo> {
     }
 
     @Override
-    public UserInfo handleTyped(Request request, Response response) throws Exception {
+    public AccountInfo handleTyped(Request request, Response response) throws Exception {
         if (request.queryParams("code") == null || request.queryParams("state") == null) {
             throw new RouteException("Invalid authentication request.");
         }
@@ -96,6 +97,6 @@ public class AuthenticationRoute implements TypedRoute<UserInfo> {
         String username = userJson.getString("login");
         String email = userJson.getString("email");
         
-        return new SimpleAccountInfo(username, email);
+        return new SimpleAccountInfo(UUID.randomUUID(), username, email);
     }
 }
