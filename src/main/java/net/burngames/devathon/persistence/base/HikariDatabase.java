@@ -12,7 +12,15 @@ import net.burngames.devathon.persistence.stmt.UpdateCallableStatement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.pool.HikariPool;
 
+/**
+ * Abstract implementation of {@link Database} that 
+ * uses a {@link HikariPool} to manage concurrent connection.
+ * 
+ * @author Kenny
+ *
+ */
 public abstract class HikariDatabase implements Database
 {
 

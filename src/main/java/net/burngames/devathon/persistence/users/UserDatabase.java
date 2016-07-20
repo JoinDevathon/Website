@@ -1,7 +1,6 @@
 package net.burngames.devathon.persistence.users;
 
 import java.nio.ByteBuffer;
-import java.util.Optional;
 import java.util.UUID;
 
 import net.burngames.devathon.persistence.base.HikariDatabase;
@@ -38,7 +37,7 @@ public class UserDatabase extends HikariDatabase
         }
     }
     
-    public Optional<AccountInfo> getUserByUsername(String username)
+    public AccountInfo getUserByUsername(String username)
     {
         SelectCallableStatement<AccountInfo> stmt = new SelectCallableStatement<>(
                 SELECT_USER_BY_USERNAME, 
@@ -76,7 +75,7 @@ public class UserDatabase extends HikariDatabase
             throw new RuntimeException(e);
         }
         
-        return Optional.ofNullable(info);
+        return info;
     }
     
     private UUID convert(byte[] ba)
