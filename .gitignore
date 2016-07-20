@@ -7,3 +7,4 @@ target/
 
 # Vim
 *.swp
+nohup.out
