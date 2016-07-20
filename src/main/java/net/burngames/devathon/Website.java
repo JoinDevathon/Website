@@ -1,9 +1,9 @@
 package net.burngames.devathon;
 
-import net.burngames.devathon.routes.AuthenticationRoute;
 import net.burngames.devathon.routes.RegisterRoute;
 import net.burngames.devathon.routes.RouteException;
 import net.burngames.devathon.routes.RouteExceptionRoute;
+import net.burngames.devathon.routes.auth.AuthenticationRoute;
 import spark.Spark;
 
 import java.io.File;
