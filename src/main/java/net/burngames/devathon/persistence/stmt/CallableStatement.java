@@ -1,108 +1,81 @@
 package net.burngames.devathon.persistence.stmt;
 
+import net.burngames.devathon.persistence.Database;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.Callable;
 
-import net.burngames.devathon.persistence.Database;
-
-public abstract class CallableStatement<T> implements Callable<T>
-{
+public abstract class CallableStatement<T> implements Callable<T> {
 
     protected final String query;
-    
+
     protected final Object[] args;
-    
+
     protected final Database db;
-    
+
     protected Connection connection;
-    
+
     protected PreparedStatement stmt;
-    
+
     protected ResultSet result;
-    
-    public CallableStatement(Database db, String query, Object[] args)
-    {
+
+    public CallableStatement(Database db, String query, Object[] args) {
         this.db = db;
         this.query = query;
         this.args = args;
     }
-    
+
     @Override
-    public T call() throws Exception
-    {
-        try
-        {
+    public T call() throws Exception {
+        try {
             connection = db.getConnection();
-            if (connection != null)
-            {
+            if (connection != null) {
                 return work();
-            }
-            else
-            {
+            } else {
                 throw new SQLException("A connection to the database couldn't be established");
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw e;
-        }
-        finally
-        { // cleanup, ensure no exceptions screw it up
-            if (connection != null)
-            {
-                try
-                {
+        } finally { // cleanup, ensure no exceptions screw it up
+            if (connection != null) {
+                try {
                     connection.close();
-                }
-                catch (SQLException ex)
-                {
+                } catch (SQLException ex) {
                 }
             }
-            if (stmt != null)
-            {
-                try
-                {
+            if (stmt != null) {
+                try {
                     stmt.close();
-                }
-                catch (SQLException ex)
-                {
+                } catch (SQLException ex) {
                 }
             }
-            if (result != null)
-            {
-                try
-                {
+            if (result != null) {
+                try {
                     result.close();
-                }
-                catch (SQLException ex)
-                {
+                } catch (SQLException ex) {
                 }
             }
         }
     }
-    
+
     protected abstract T work() throws SQLException;
-    
-    protected void prepareStatement(String str) throws SQLException
-    {
-        if (stmt != null)
-        {
+
+    protected void prepareStatement(String str) throws SQLException {
+        if (stmt != null) {
             stmt.close();
         }
-        
+
         stmt = connection.prepareStatement(str);
     }
-    
-    protected void executeStatement() throws SQLException
-    {
-        if (result != null)
-        {
+
+    protected void executeStatement() throws SQLException {
+        if (result != null) {
             result.close();
         }
-        
+
         result = stmt.executeQuery();
     }
 

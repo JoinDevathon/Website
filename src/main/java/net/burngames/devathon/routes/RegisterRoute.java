@@ -1,15 +1,14 @@
 package net.burngames.devathon.routes;
 
-import java.security.SecureRandom;
-import java.util.Base64;
+import net.burngames.devathon.Website;
+import spark.Request;
+import spark.Response;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import net.burngames.devathon.Website;
-import spark.Request;
-import spark.Response;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 /**
  * @author PaulBGD

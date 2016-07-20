@@ -1,25 +1,21 @@
 package net.burngames.devathon.routes.auth;
 
-import java.util.Base64;
-import java.util.UUID;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
 import net.burngames.devathon.Website;
 import net.burngames.devathon.routes.RouteException;
 import net.burngames.devathon.routes.TypedRoute;
 import net.burngames.devathon.routes.auth.base.SimpleAccountInfo;
-
 import org.json.JSONObject;
-
 import spark.Request;
 import spark.Response;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
+import java.util.UUID;
 
 /**
  * @author PaulBGD
@@ -93,10 +89,10 @@ public class AuthenticationRoute implements TypedRoute<AccountInfo> {
         if (!userJson.has("login")) {
             throw new RouteException("Failed to authenticate."); // something happened and our id that should be here is missing
         }
-        
+
         String username = userJson.getString("login");
         String email = userJson.getString("email");
-        
+
         return new SimpleAccountInfo(UUID.randomUUID(), username, email);
     }
 }
