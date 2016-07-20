@@ -1,25 +1,26 @@
 package net.burngames.devathon.routes;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import net.burngames.devathon.Website;
-import org.json.JSONObject;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.embeddedserver.jetty.websocket.WebSocketCreatorFactory;
+import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Arrays;
-import java.util.Base64;
+
+import net.burngames.devathon.Website;
+
+import org.json.JSONObject;
+
+import spark.Request;
+import spark.Response;
+
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
 
 /**
  * @author PaulBGD
  */
-public class AuthenticationRoute implements Route {
+public class AuthenticationRoute implements TypedRoute<String> {
     private final byte[] encryptionKey;
     private final byte[] statePrefix;
 
@@ -35,7 +36,7 @@ public class AuthenticationRoute implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public String handleTyped(Request request, Response response) throws Exception {
         if (request.queryParams("code") == null || request.queryParams("state") == null) {
             throw new RouteException("Invalid authentication request.");
         }

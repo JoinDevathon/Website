@@ -1,20 +1,20 @@
 package net.burngames.devathon.routes;
 
-import net.burngames.devathon.Website;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.SecureRandom;
-import java.util.Base64;
+
+import net.burngames.devathon.Website;
+import spark.Request;
+import spark.Response;
 
 /**
  * @author PaulBGD
  */
-public class RegisterRoute implements Route {
+public class RegisterRoute<Void> implements TypedRoute {
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
@@ -30,7 +30,8 @@ public class RegisterRoute implements Route {
         this.statePrefix = Website.getProperties().getProperty("state_prefix");
     }
 
-    public Object handle(Request request, Response response) throws Exception {
+    @Override
+    public Void handleTyped(Request request, Response response) throws Exception {
         String state = this.statePrefix; // our prefix, which we check for later
         // to disable fixed length attacks, append a random amount of bytes as a suffix
         int extra = RANDOM.nextInt(15) + 12;
