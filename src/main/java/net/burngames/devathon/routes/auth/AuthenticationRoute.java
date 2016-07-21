@@ -4,12 +4,16 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import net.burngames.devathon.Website;
+import net.burngames.devathon.persistence.Sessions;
 import net.burngames.devathon.routes.RouteException;
 import net.burngames.devathon.routes.TypedRoute;
 import net.burngames.devathon.routes.auth.base.SimpleAccountInfo;
 import org.json.JSONObject;
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import spark.TemplateViewRoute;
+import spark.template.mustache.MustacheTemplateEngine;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -20,7 +24,8 @@ import java.util.UUID;
 /**
  * @author PaulBGD
  */
-public class AuthenticationRoute implements TypedRoute<AccountInfo> {
+public class AuthenticationRoute implements TypedRoute<Void> {
+
     private final byte[] encryptionKey;
     private final byte[] statePrefix;
 
@@ -36,7 +41,7 @@ public class AuthenticationRoute implements TypedRoute<AccountInfo> {
     }
 
     @Override
-    public AccountInfo handleTyped(Request request, Response response) throws Exception {
+    public Void handleTyped(Request request, Response response) throws Exception {
         if (request.queryParams("code") == null || request.queryParams("state") == null) {
             throw new RouteException("Invalid authentication request.");
         }
@@ -94,7 +99,12 @@ public class AuthenticationRoute implements TypedRoute<AccountInfo> {
         String email = userJson.getString("email");
 
         final AccountInfo account = Website.getUserDatabase().addUser(username, email);
-        // todo load account page
+        Sessions sessions = Website.getSessions();
+        String token = sessions.init(request);
+        JSONObject object = new JSONObject();
+        object.put("id", account.getId());
+        sessions.setSession(token, object);
+
         return null;
     }
 }

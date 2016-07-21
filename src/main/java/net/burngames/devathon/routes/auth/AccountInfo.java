@@ -1,5 +1,6 @@
 package net.burngames.devathon.routes.auth;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -25,5 +26,11 @@ public interface AccountInfo {
      * @return the user's Github email.
      */
     String getEmail();
+
+    /**
+     * Returns a map containing `id`, `username`, and `email`
+     * @return a map
+     */
+    Map<String, Object> toMap();
 
 }

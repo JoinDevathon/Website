@@ -1,16 +1,20 @@
 package net.burngames.devathon;
 
+import net.burngames.devathon.persistence.Sessions;
+import net.burngames.devathon.persistence.TokenGenerator;
 import net.burngames.devathon.persistence.users.UserDatabase;
-import net.burngames.devathon.routes.RegisterRoute;
-import net.burngames.devathon.routes.RouteException;
-import net.burngames.devathon.routes.RouteExceptionRoute;
+import net.burngames.devathon.routes.*;
 import net.burngames.devathon.routes.auth.AuthenticationRoute;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 import spark.Spark;
+import spark.template.mustache.MustacheTemplateEngine;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.GeneralSecurityException;
 import java.util.Properties;
 
 /**
@@ -20,8 +24,11 @@ public class Website {
 
     private static Properties properties;
     private static UserDatabase userDatabase;
+    private static JedisPool pool;
+    private static Sessions sessions;
+    private static TokenGenerator tokenGenerator;
 
-    public static void main(String[] strings) throws IOException {
+    public static void main(String[] strings) throws IOException, GeneralSecurityException {
         if (isDevelopment()) {
             // unless you're ready to die, don't enable this
             //System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "trace");
@@ -37,6 +44,10 @@ public class Website {
         }
         System.out.println("Loading database..");
         Website.userDatabase = new UserDatabase();
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        Website.pool = new JedisPool(jedisPoolConfig, properties.getProperty("jedis.host"));
+        Website.sessions = new Sessions(Website.pool);
+        Website.tokenGenerator = new TokenGenerator(Website.pool, properties.getProperty("token_key"));
 
         System.out.println("Starting in dev mode: " + isDevelopment());
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "1234"));
@@ -44,6 +55,7 @@ public class Website {
         try {
             Spark.port(port);
             Spark.threadPool(threads);
+
             if (isDevelopment()) {
                 Spark.staticFiles.externalLocation(new File(System.getenv().getOrDefault("PUBLIC", "src/main/resources/public")).getAbsolutePath());
             } else {
@@ -52,6 +64,8 @@ public class Website {
             }
             Spark.get("/register", new RegisterRoute());
             Spark.get("/authentication", new AuthenticationRoute());
+            Spark.get("/account", new AccountRoute(), new MustacheTemplateEngine());
+            Spark.get("/error", new ErrorRoute(), new MustacheTemplateEngine());
 
             Spark.after((request, response) -> {
                 response.header("Content-Encoding", "gzip"); // do gzip
@@ -77,6 +91,18 @@ public class Website {
 
     public static UserDatabase getUserDatabase() {
         return userDatabase;
+    }
+
+    public static JedisPool getPool() {
+        return pool;
+    }
+
+    public static Sessions getSessions() {
+        return sessions;
+    }
+
+    public static TokenGenerator getTokenGenerator() {
+        return tokenGenerator;
     }
 
     public static boolean isDevelopment() {

@@ -10,6 +10,6 @@ import spark.Response;
 public class RouteExceptionRoute implements ExceptionHandler {
     @Override
     public void handle(Exception e, Request request, Response response) {
-        response.body(e.getMessage());
+        response.redirect("/error?message=" + e.getMessage());
     }
 }

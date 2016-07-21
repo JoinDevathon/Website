@@ -1,7 +1,9 @@
 package net.burngames.devathon.routes.auth.base;
 
+import com.google.common.collect.ImmutableMap;
 import net.burngames.devathon.routes.auth.AccountInfo;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -31,6 +33,15 @@ public class SimpleAccountInfo implements AccountInfo {
     @Override
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    public Map<String, Object> toMap() {
+        return ImmutableMap.of(
+                "id", this.id,
+                "username", this.username,
+                "email", this.email
+        );
     }
 
     @Override
