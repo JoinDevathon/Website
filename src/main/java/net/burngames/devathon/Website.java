@@ -45,7 +45,7 @@ public class Website {
             Spark.port(port);
             Spark.threadPool(threads);
             if (isDevelopment()) {
-                Spark.staticFiles.externalLocation(new File("src/main/resources/public").getAbsolutePath());
+                Spark.staticFiles.externalLocation(new File(System.getenv().getOrDefault("PUBLIC", "src/main/resources/public")).getAbsolutePath());
             } else {
                 Spark.staticFiles.location("/public");
                 Spark.staticFiles.expireTime(60 * 60 * 24 * 7); // cache for a week

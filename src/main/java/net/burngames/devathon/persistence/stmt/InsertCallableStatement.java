@@ -15,7 +15,7 @@ public class InsertCallableStatement extends CallableStatement<ResultSet> {
 
     @Override
     protected ResultSet work() throws SQLException {
-        prepareStatement(query);
+        prepareStatement(query, true);
 
         for (int i = 0; i < args.length; i++) {
             stmt.setObject(i + 1, args[i]);
@@ -23,8 +23,6 @@ public class InsertCallableStatement extends CallableStatement<ResultSet> {
 
         stmt.executeUpdate();
 
-        try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-            return generatedKeys;
-        }
+        return stmt.getGeneratedKeys();
     }
 }

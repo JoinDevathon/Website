@@ -70,7 +70,11 @@ public abstract class HikariDatabase implements Database {
             return;
         }
 
-        ExceptionalConsumer<String> consumeQuery = str -> new UpdateCallableStatement(this, str, new Object[0]).call();
+        ExceptionalConsumer<String> consumeQuery = str -> {
+            UpdateCallableStatement statement = new UpdateCallableStatement(this, str, new Object[0]);
+            statement.call();
+            statement.close();
+        };
 
         Arrays.stream(queries).forEach(consumeQuery);
     }

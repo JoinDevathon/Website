@@ -32,18 +32,21 @@
                 <p id="countdown-seconds" class="countdown-value">-1</p>
             </div>
         </div>
+        <noscript>
+            <p>JavaScript is required for the Countdown Timer. If you choose not to use JavaScript, the rest of the site should work fine.</p>
+        </noscript>
     </div>
 
     <div class="navbar-tabs">
-        <a href="javascript:void(0)" class="navbar-tab active">Home</a>
-        <a href="javascript:void(0)" class="navbar-tab">About</a>
-        <a href="javascript:void(0)" class="navbar-tab">Rewards</a>
-        <a href="javascript:void(0)" class="navbar-tab">Sponsors</a>
-        <a href="javascript:void(0)" class="navbar-tab">Register</a>
+        <a href="#" class="navbar-tab active">Home</a>
+        <a href="#about" class="navbar-tab">About</a>
+        <a href="#rewards" class="navbar-tab">Rewards</a>
+        <a href="#sponsors" class="navbar-tab">Sponsors</a>
+        <a href="#register" class="navbar-tab">Register</a>
     </div>
 </div>
 
-<div class="box">
+<div class="box" id="about">
     <div class="container box-container">
         <h1>About</h1>
         <p>Devathon is a contest running from November 5th to November 6th. The contest is on for all timezones. You're allowed to work the full 24 hours, or just while the sun is up. Once Sunday comes around, all projects are closed and judging will begin.</p>
@@ -57,7 +60,7 @@
     </div>
 </div>
 
-<div class="box box-blue">
+<div class="box box-blue" id="rewards">
     <div class="container box-container">
         <h1>Rewards</h1>
         <p>We offer money, prizes, and curse points as rewards. All rewards were given by our great sponsors.</p>
@@ -76,7 +79,7 @@
     </div>
 </div>
 
-<div class="box">
+<div class="box" id="sponsors">
     <div class="container box-container">
         <h1>Sponsors</h1>
         <p>This contest would be nothing without its sponsors. If you're participating, take a chance to thank these people.</p>
@@ -98,7 +101,7 @@
     </div>
 </div>
 
-<div class="box box-pink">
+<div class="box box-pink" id="register">
     <div class="container box-container">
         <h1>Register</h1>
 
@@ -147,6 +150,7 @@
             COUNTDOWN_SECONDS.innerHTML = String(seconds);
         }
 
+        updateCountdown(); // update asap
         setInterval(updateCountdown, 1000);
     })();
 </script>

@@ -1,9 +1,9 @@
 package net.burngames.devathon.persistence.users;
 
 import net.burngames.devathon.persistence.base.HikariDatabase;
+import net.burngames.devathon.persistence.stmt.CallableStatement;
 import net.burngames.devathon.persistence.stmt.InsertCallableStatement;
 import net.burngames.devathon.persistence.stmt.SelectCallableStatement;
-import net.burngames.devathon.persistence.stmt.UpdateCallableStatement;
 import net.burngames.devathon.routes.auth.AccountInfo;
 import net.burngames.devathon.routes.auth.base.SimpleAccountInfo;
 
@@ -18,28 +18,31 @@ public class UserDatabase extends HikariDatabase {
             "username VARCHAR(255), " +
             "email VARCHAR(255), " +
             "PRIMARY KEY(id)," +
-            "UNIQUE INDEX `id` (`id`)" +
+            "UNIQUE INDEX `username` (`username`)" +
             ")" +
             "ENGINE=InnoDB;";
 
-    private static final String INSERT_USER = "INSERT INTO `users` VALUES (`username`, `email`) VALUES (?, ?)) ON DUPLICATE KEY UPDATE `email`=`email`;";
+    private static final String INSERT_USER = "INSERT INTO `devathon`.`users` (`username`, `email`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `email`=`email`";
 
-    private static final String SELECT_USER_BY_USERNAME = "SELECT `id`, `username`, `email` FROM `users` WHERE `username` = ?";
+    private static final String SELECT_USER_BY_USERNAME = "SELECT `id`, `username`, `email` FROM `devathon`.`users` WHERE `username` = ?";
 
     public UserDatabase() {
         super(Runtime.getRuntime().availableProcessors(), CREATE_DATABASE, CREATE_USERS_TABLE);
     }
 
     public AccountInfo addUser(String username, String email) {
-        try {
-            ResultSet generated = new InsertCallableStatement(this, INSERT_USER, new Object[]{username, email}).call();
+        CallableStatement<ResultSet> statement = new InsertCallableStatement(this, INSERT_USER, new Object[]{username, email});
+        try (ResultSet generated = statement.call()) {
             if (generated.first()) {
-                return new SimpleAccountInfo(generated.getInt("id"), username, email);
+                return new SimpleAccountInfo(generated.getInt(1), username, email);
             } else {
-                throw new Exception();
+                // user already exists, grab info
+                return this.getUserByUsername(username);
             }
         } catch (Exception e) {
             throw new RuntimeException("Error adding user " + username + " to database, ", e);
+        } finally {
+            statement.close();
         }
     }
 
@@ -71,6 +74,8 @@ public class UserDatabase extends HikariDatabase {
             info = stmt.call();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            stmt.close();
         }
 
         return info;
