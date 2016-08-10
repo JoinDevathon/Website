@@ -44,7 +44,6 @@ public class Sessions {
         this.getLock(token); // get a lock so we don't override any previously set data
         SessionObject sessionObject = new SessionObject(object, System.currentTimeMillis() + this.ttl);
 
-        System.out.println(sessionObject.toJSON());
         this.pool.getResource().set(this.prefix + token, sessionObject.toJSON().toString(), "NX", "PX", this.ttl);
         this.deleteLock(token);
     }

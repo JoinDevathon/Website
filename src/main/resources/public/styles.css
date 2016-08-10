@@ -61,7 +61,7 @@ button {
 
 .header-main {
     text-align: center;
-    padding: 100px 40px;
+    padding: 70px 40px;
 }
 
 .header-title {
@@ -133,6 +133,30 @@ button {
 .countdown-colon {
     font-size: 48px;
     display: inline;
+}
+
+.social-buttons {
+    margin-top: 40px;
+}
+
+.social-media {
+    display: inline-block;
+    padding: 8px 16px;
+
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.3);
+
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 32px;
+
+    transition: color 0.2s ease-out, border-color 0.2s ease-out, background-color 0.2s ease-out;
+}
+
+.social-media:hover {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .sponsor {
