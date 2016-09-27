@@ -62,9 +62,11 @@ public class Website {
                 Spark.staticFiles.location("/public");
                 Spark.staticFiles.expireTime(60 * 60 * 24 * 7); // cache for a week
             }
+            Spark.get("/", new HomeRoute(), new MustacheTemplateEngine());
             Spark.get("/register", new RegisterRoute());
             Spark.get("/authentication", new AuthenticationRoute());
             Spark.get("/account", new AccountRoute(), new MustacheTemplateEngine());
+            Spark.get("/account/update", new AccountUpdateRoute());
             Spark.get("/error", new ErrorRoute(), new MustacheTemplateEngine());
 
             Spark.after((request, response) -> {

@@ -1,10 +1,12 @@
 package net.burngames.devathon.persistence;
 
+import com.google.common.base.Joiner;
 import net.burngames.devathon.Website;
 import net.burngames.devathon.routes.RouteException;
 import org.json.JSONObject;
 import redis.clients.jedis.JedisPool;
 import spark.Request;
+import spark.Response;
 
 import java.security.GeneralSecurityException;
 
@@ -25,17 +27,20 @@ public class Sessions {
         this.pool = pool;
     }
 
-    public String init(Request request) throws GeneralSecurityException, RouteException {
+    public String init(Request request, Response response) throws GeneralSecurityException, RouteException {
         if (request.cookies().containsKey("devathon-session")) {
             return Website.getTokenGenerator().getToken(request.cookie("devathon-session"));
         }
         TokenGenerator.TokenAndClientToken tokens = Website.getTokenGenerator().generateTokens();
-        request.cookies().put("devathon-session", tokens.clientToken);
+        response.cookie("devathon-session", tokens.clientToken);
         return tokens.token;
     }
 
     public SessionObject getSession(String token) {
         String result = this.pool.getResource().get(this.prefix + token);
+        if (result == null) {
+            return null;
+        }
         JSONObject object = new JSONObject(result);
         return new SessionObject(object.getJSONObject("data"), object.getLong("time") - System.currentTimeMillis());
     }

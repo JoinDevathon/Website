@@ -1,0 +1,150 @@
+{{> header}}
+<body>
+<div class="header">
+    <div class="header-main">
+        <h1 class="header-title">
+            <div class="header-image">{{> logo}}</div>
+        </h1>
+        <p class="header-desc">The only 24 hour Bukkit Plugin Development Contest for everyone.</p>
+        <div class="countdown">
+            <div class="countdown-box">
+                <b class="countdown-title">Days</b>
+                <p id="countdown-days" class="countdown-value">-1</p>
+            </div>
+            <p class="countdown-colon">:</p>
+            <div class="countdown-box">
+                <b class="countdown-title">Hours</b>
+                <p id="countdown-hours" class="countdown-value">-1</p>
+            </div>
+            <p class="countdown-colon">:</p>
+            <div class="countdown-box">
+                <b class="countdown-title">Minutes</b>
+                <p id="countdown-minutes" class="countdown-value">-1</p>
+            </div>
+            <p class="countdown-colon">:</p>
+            <div class="countdown-box">
+                <b class="countdown-title">Seconds</b>
+                <p id="countdown-seconds" class="countdown-value">-1</p>
+            </div>
+        </div>
+        <div class="social-buttons">
+            <a class="social-media" href="https://twitter.com/JoinDevathon" target="_blank">Twitter</a>
+        </div>
+        <noscript>
+            <p>JavaScript is required for the Countdown Timer. If you choose not to use JavaScript, the rest of the site should work fine.</p>
+        </noscript>
+    </div>
+
+    <div class="navbar-tabs">
+        <a href="#" class="navbar-tab active">Home</a>
+        <a href="#about" class="navbar-tab">About</a>
+        <a href="#rewards" class="navbar-tab">Rewards</a>
+        <a href="#sponsors" class="navbar-tab">Sponsors</a>
+        <a href="/register" class="navbar-tab">Register/Log In</a>
+    </div>
+</div>
+
+<div class="box" id="about">
+    <div class="container box-container">
+        <h1>About</h1>
+        <p>Devathon is a contest running from November 5th to November 6th. The contest is on for all timezones. You're allowed to work the full 24 hours, or just while the sun is up. Once Sunday comes around, all projects are closed and judging will begin.</p>
+
+        <h2>Why</h2>
+        <p>After the ten.java contest moved on to Sponge, we decided since the majority of the Minecraft community uses Bukkit we'd put on a contest of our own.</p>
+        <p>Unlike ten.java you have a full 24 hours and are competing against people from all timezones. So be sure your submission is the best!</p>
+
+        <h2>When</h2>
+        <p>The contest starts on <b>November 5th at 8AM Central</b> and ends on <b>November 6th at 8AM Central</b>.</p>
+    </div>
+</div>
+
+<div class="box box-blue" id="rewards">
+    <div class="container box-container">
+
+        <div class="navbar-info">
+            <p class="center" style="margin:0">Everyone who enters the contest gets a <b>free</b> t-shirt!</p>
+        </div>
+
+        <h1>Rewards</h1>
+        <p>We offer money, prizes, and curse points as rewards. All rewards were given by our great sponsors.</p>
+
+        <h2>First Place</h2>
+        <p><b>$100</b>, the official t-shirt, and a 6 month Enjin Plan!</p>
+
+        <h3>Second Place</h3>
+        <p><b>$50</b>, the official t-shirt, and a 6 month Enjin Plan!</p>
+
+        <h3>Third Place</h3>
+        <p><b>$25</b> and the official t-shirt!</p>
+
+        <h3>Participants</h3>
+        <p>Everyone who submits a project that is not disqualified (see rules) will get a participant t-shirt!</p>
+    </div>
+</div>
+
+<div class="box" id="sponsors">
+    <div class="container box-container">
+        <h1>Sponsors</h1>
+        <p>This contest would be nothing without its sponsors. If you're participating, take a chance to thank these people.</p>
+
+        <div class="sponsor">
+            <img src="images/enjin.png" alt="Enjin"/>
+        </div>
+    </div>
+</div>
+
+<div class="box box-pink" id="register">
+    <div class="container box-container">
+        <h1>Register</h1>
+
+        <form action="/register" method="get">
+            <button type="submit">Register with GitHub</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var start = 1478350800000;
+
+        var SECOND = 1000;
+        var MINUTE = SECOND * 60;
+        var HOUR = MINUTE * 60;
+        var DAY = HOUR * 24;
+
+        var COUNTDOWN_DAYS = document.getElementById('countdown-days');
+        var COUNTDOWN_HOURS = document.getElementById('countdown-hours');
+        var COUNTDOWN_MINUTES = document.getElementById('countdown-minutes');
+        var COUNTDOWN_SECONDS = document.getElementById('countdown-seconds');
+
+        function updateCountdown() {
+            var now = new Date().getTime();
+            var msDiff = start - now;
+            if (msDiff < 0) {
+                // event started, switch to when the event ends?
+                return;
+            }
+            var days = Math.floor(msDiff / DAY);
+            msDiff -= DAY * days;
+
+            var hours = Math.floor(msDiff / HOUR);
+            msDiff -= HOUR * hours;
+
+            var minutes = Math.floor(msDiff / MINUTE);
+            msDiff -= MINUTE * minutes;
+
+            var seconds = Math.floor(msDiff / SECOND);
+            //msDiff -= SECOND * seconds;
+
+            COUNTDOWN_DAYS.innerHTML = String(days);
+            COUNTDOWN_HOURS.innerHTML = String(hours);
+            COUNTDOWN_MINUTES.innerHTML = String(minutes);
+            COUNTDOWN_SECONDS.innerHTML = String(seconds);
+        }
+
+        updateCountdown(); // update asap
+        setInterval(updateCountdown, 1000);
+    })();
+</script>
+</body>
+{{> footer}}

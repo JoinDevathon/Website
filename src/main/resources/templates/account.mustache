@@ -1,1 +1,96 @@
-Hello {{id}}
+{{> header}}
+<body>
+<div class="header">
+    <div class="header-main">
+        <div class="header-image-small">{{> logo}}</div>
+        <p class="header-desc">{{username}}'s User Page</p>
+    </div>
+
+    <div class="navbar-info-container">
+        <p class="navbar-info-desc">Trophy Case</p>
+        <div class="navbar-info">
+            <p class="center">You don't have any trophies yet! Participate in the contest to earn new and unique trophies!</p>
+        </div>
+    </div>
+
+    <div class="navbar-tabs">
+        <a href="/" class="navbar-tab">Home</a>
+        <a href="/" class="navbar-tab">Log Out</a>
+    </div>
+</div>
+
+<div class="box">
+    <div class="container">
+        <p>Your Social Media</p>
+        <div class="account-media-container">
+            <div class="account-media account-media-beam">
+                <div class="account-media-logo">{{> beam-logo}}</div>
+                <h2>Beam</h2>
+
+                <input id="beam" class="account-media-input" value="{{beam}}"/>
+
+                <a href="#" data-for="beam" class="social-media">Edit</a>
+            </div>
+            <div class="account-media account-media-twitter">
+                <div class="account-media-logo">{{> twitter-logo}}</div>
+                <h2>Twitter</h2>
+
+                <input id="twitter" class="account-media-input" value="{{twitter}}"/>
+
+                <a href="#" data-for="twitter" class="social-media">Edit</a>
+            </div>
+            <div class="account-media account-media-twitch">
+                <div class="account-media-logo">{{> twitch-logo}}</div>
+                <h2>Twitch</h2>
+
+                <input id="twitch" class="account-media-input" value="{{twitch}}"/>
+
+                <a href="#" data-for="twitch" class="social-media">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var labels = document.getElementsByClassName('social-media');
+
+        for (var i = 0; i < labels.length; i++) {
+            (function () {
+                var label = labels[i];
+                var platform = label.getAttribute('data-for');
+                var input = document.getElementById(platform);
+                if (input === null) {
+                    return;
+                }
+
+                input.setAttribute('disabled', 'disabled');
+
+                label.addEventListener('click', function onClick(e) {
+                    if (label.innerHTML === 'Save') {
+                        var value = input.value;
+                        var request = new XMLHttpRequest();
+                        request.onreadystatechange = function stateChange() {
+                            if (request.readyState === XMLHttpRequest.DONE) {
+                                console.log(request.responseText);
+                            }
+                        };
+                        request.open('GET', '/account/update?service=' + encodeURIComponent(platform) + '&value=' + encodeURIComponent(value));
+                        request.send();
+
+                        label.innerHTML = 'Edit';
+                        input.setAttribute('disabled', 'disabled');
+                    } else {
+                        input.removeAttribute('disabled');
+                        input.focus();
+                        label.innerHTML = 'Save';
+                    }
+                    e.preventDefault();
+                    return false;
+                });
+            })();
+        }
+    })();
+</script>
+</body>
+{{> footer}}

@@ -41,6 +41,10 @@ button {
     padding: 4px 6px;
 }
 
+img {
+    max-width: 100%;
+}
+
 .container {
     display: block;
     width: 1280px;
@@ -74,6 +78,16 @@ button {
     max-width: 100%;
 }
 
+.header-image-small {
+    height: 200px;
+    max-width: 100%;
+}
+
+.header-image > svg, .header-image-small > svg {
+    height: 100%;
+    width: 100%;
+}
+
 .header-desc {
     font-size: 24px;
 }
@@ -97,6 +111,20 @@ button {
 
 .navbar-tab:hover, .navbar-tab.active {
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-info-container {
+    width: 1000px;
+    max-width: 100%;
+    padding: 0 30px;
+    margin: -80px auto 20px;
+    box-sizing: border-box;
+}
+
+.navbar-info {
+    border-radius: 4px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .box {
@@ -148,6 +176,8 @@ button {
     display: inline-block;
     padding: 8px 16px;
 
+    cursor: pointer;
+
     color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     background-color: rgba(255, 255, 255, 0.3);
@@ -164,23 +194,103 @@ button {
     border-color: rgba(255, 255, 255, 0.1);
 }
 
+.account-media-container {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.account-media {
+    flex-grow: 1;
+
+    color: #fff;
+    text-align: center;
+
+    margin: 0 20px 20px;
+    padding: 40px 20px 20px;
+    border-radius: 8px;
+}
+
+.account-media > .social-media {
+    margin-top: 20px;
+}
+
+.account-media-logo {
+    width: 120px;
+    height: 120px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.account-media-logo > svg {
+    width: 100%;
+    height: 100%;
+}
+
+.account-media-input {
+    font-size: 18px;
+    background: none;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+    border: 0;
+
+    width: 150px;
+    max-width: 100%;
+    display: block;
+}
+
+.account-media-beam {
+    background-image: -webkit-gradient(
+            linear,
+            right bottom,
+            left top,
+            color-stop(0, #6C3C97),
+            color-stop(1, #3EC7F4)
+    );
+    background-image: -o-linear-gradient(left top, #6C3C97 0%, #3EC7F4 100%);
+    background-image: -moz-linear-gradient(left top, #6C3C97 0%, #3EC7F4 100%);
+    background-image: -webkit-linear-gradient(left top, #6C3C97 0%, #3EC7F4 100%);
+    background-image: -ms-linear-gradient(left top, #6C3C97 0%, #3EC7F4 100%);
+    background-image: linear-gradient(to left top, #6C3C97 0%, #3EC7F4 100%);
+}
+
+.account-media-twitter {
+    background-image: -webkit-gradient(
+            linear,
+            right bottom,
+            left top,
+            color-stop(0, #1FA1F1),
+            color-stop(1, #6FC6F5)
+    );
+    background-image: -o-linear-gradient(left top, #1FA1F1 0%, #6FC6F5 100%);
+    background-image: -moz-linear-gradient(left top, #1FA1F1 0%, #6FC6F5 100%);
+    background-image: -webkit-linear-gradient(left top, #1FA1F1 0%, #6FC6F5 100%);
+    background-image: -ms-linear-gradient(left top, #1FA1F1 0%, #6FC6F5 100%);
+    background-image: linear-gradient(to left top, #1FA1F1 0%, #6FC6F5 100%);
+}
+
+.account-media-twitch {
+    background-image: -webkit-gradient(
+            linear,
+            left top,
+            right bottom,
+            color-stop(0, #B9A3E3),
+            color-stop(1, #6441A5)
+    );
+    background-image: -o-linear-gradient(right bottom, #B9A3E3 0%, #6441A5 100%);
+    background-image: -moz-linear-gradient(right bottom, #B9A3E3 0%, #6441A5 100%);
+    background-image: -webkit-linear-gradient(right bottom, #B9A3E3 0%, #6441A5 100%);
+    background-image: -ms-linear-gradient(right bottom, #B9A3E3 0%, #6441A5 100%);
+    background-image: linear-gradient(to right bottom, #B9A3E3 0%, #6441A5 100%);
+}
+
 .sponsor {
+    text-align: center;
     display: block;
     min-height: 60px;
-    background-color: pink;
     margin-bottom: 30px;
-}
-
-.sponsor-gold {
-    background-color: gold;
-}
-
-.sponsor-silver {
-    background-color: silver;
-}
-
-.sponsor-bronze {
-    background-color: sandybrown;
 }
 
 .center {

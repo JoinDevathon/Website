@@ -100,11 +100,12 @@ public class AuthenticationRoute implements TypedRoute<Void> {
 
         final AccountInfo account = Website.getUserDatabase().addUser(username, email);
         Sessions sessions = Website.getSessions();
-        String token = sessions.init(request);
+        String token = sessions.init(request, response);
         JSONObject object = new JSONObject();
         object.put("id", account.getId());
         sessions.setSession(token, object);
 
+        response.redirect("/account");
         return null;
     }
 }
