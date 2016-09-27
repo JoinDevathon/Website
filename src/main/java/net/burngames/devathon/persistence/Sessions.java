@@ -4,6 +4,7 @@ import com.google.common.base.Joiner;
 import net.burngames.devathon.Website;
 import net.burngames.devathon.routes.RouteException;
 import org.json.JSONObject;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import spark.Request;
 import spark.Response;
@@ -37,7 +38,9 @@ public class Sessions {
     }
 
     public SessionObject getSession(String token) {
-        String result = this.pool.getResource().get(this.prefix + token);
+        Jedis resource = this.pool.getResource();
+        String result = resource.get(this.prefix + token);
+        resource.close();
         if (result == null) {
             return null;
         }
@@ -49,14 +52,18 @@ public class Sessions {
         this.getLock(token); // get a lock so we don't override any previously set data
         SessionObject sessionObject = new SessionObject(object, System.currentTimeMillis() + this.ttl);
 
-        this.pool.getResource().set(this.prefix + token, sessionObject.toJSON().toString(), "NX", "PX", this.ttl);
+        Jedis resource = this.pool.getResource();
+        resource.set(this.prefix + token, sessionObject.toJSON().toString(), "NX", "PX", this.ttl);
+        resource.close();
         this.deleteLock(token);
     }
 
     public void deleteSession(String token) {
         this.getLock(token);
 
-        this.pool.getResource().del(this.prefix + token);
+        Jedis resource = this.pool.getResource();
+        resource.del(this.prefix + token);
+        resource.close();
 
         this.deleteLock(token);
     }
@@ -75,7 +82,9 @@ public class Sessions {
             if (++i % 100 == 0) {
                 System.out.println("Been locked out from " + lockKey + " " + i + " times!");
             }
-            String result = this.pool.getResource().set(lockKey, "L", "NX", "PX", this.lockTtl);
+            Jedis resource = this.pool.getResource();
+            String result = resource.set(lockKey, "L", "NX", "PX", this.lockTtl);
+            resource.close();
             if (result == null) {
                 try {
                     Thread.sleep(this.lockRetry);

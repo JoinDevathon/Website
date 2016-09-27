@@ -45,6 +45,8 @@ public class Website {
         System.out.println("Loading database..");
         Website.userDatabase = new UserDatabase();
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxWaitMillis(1000);
+        jedisPoolConfig.setMaxTotal(32);
         Website.pool = new JedisPool(jedisPoolConfig, properties.getProperty("jedis.host"));
         Website.sessions = new Sessions(Website.pool);
         Website.tokenGenerator = new TokenGenerator(Website.pool, properties.getProperty("token_key"));
