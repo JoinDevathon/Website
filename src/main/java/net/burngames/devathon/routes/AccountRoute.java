@@ -22,6 +22,9 @@ public class AccountRoute implements TemplateViewRoute {
         }
         int id = session.json.getInt("id");
         final AccountInfo info = Website.getUserDatabase().getUserById(id);
+        if (info == null) {
+            throw new RouteException("An error occurred loading account info.");
+        }
         return new ModelAndView(info.toMap(), "account.mustache");
     }
 }
