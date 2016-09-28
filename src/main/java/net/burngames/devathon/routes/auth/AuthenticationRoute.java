@@ -96,15 +96,22 @@ public class AuthenticationRoute implements TypedRoute<Void> {
             throw new RouteException("Failed to authenticate."); // something happened and our id that should be here is missing
         }
 
-        String username = userJson.getString("login");
-        String email = userJson.getString("email");
+        try {
 
-        final AccountInfo account = Website.getUserDatabase().addUser(username, email);
-        Sessions sessions = Website.getSessions();
-        String token = sessions.init(request, response);
-        JSONObject object = new JSONObject();
-        object.put("id", account.getId());
-        sessions.setSession(token, object);
+            String username = userJson.getString("login");
+            String email = userJson.getString("email");
+
+            final AccountInfo account = Website.getUserDatabase().addUser(username, email);
+            Sessions sessions = Website.getSessions();
+            String token = sessions.init(request, response);
+            JSONObject object = new JSONObject();
+            object.put("id", account.getId());
+            sessions.setSession(token, object);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("JSON: " + userJson.toString());
+            throw new RouteException("Failed to authenticate.");
+        }
 
         response.redirect("/account");
         return null;
