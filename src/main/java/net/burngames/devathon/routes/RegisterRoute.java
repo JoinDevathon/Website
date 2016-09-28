@@ -19,7 +19,7 @@ public class RegisterRoute<Void> implements TypedRoute {
 
     private static final String BASE_URL = "https://github.com/login/oauth/authorize";
     private static final String CLIENT_ID = Website.getProperties().getProperty("github_client_id");
-    private static final String SCOPE = "user";
+    private static final String SCOPE = "user:email";
 
     private final byte[] encryptionKey;
     private final String statePrefix;

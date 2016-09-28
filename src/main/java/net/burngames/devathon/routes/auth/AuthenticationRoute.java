@@ -91,7 +91,7 @@ public class AuthenticationRoute implements TypedRoute<Void> {
                 .queryString("access_token", accessToken)
                 .asJson();
         JSONObject userJson = userResponse.getBody().getObject();
-        if (!userJson.has("login") || !userJson.has("email")) {
+        if (!userJson.has("login")) {
             System.out.println("Got " + userResponse.getBody().toString() + " which is missing login/email");
             throw new RouteException("Failed to authenticate."); // something happened and our id that should be here is missing
         }
@@ -99,9 +99,9 @@ public class AuthenticationRoute implements TypedRoute<Void> {
         try {
 
             String username = userJson.getString("login");
-            String email = userJson.getString("email");
+//            String email = userJson.getString("email");
 
-            final AccountInfo account = Website.getUserDatabase().addUser(username, email);
+            final AccountInfo account = Website.getUserDatabase().addUser(username, null);
             Sessions sessions = Website.getSessions();
             String token = sessions.init(request, response);
             JSONObject object = new JSONObject();
