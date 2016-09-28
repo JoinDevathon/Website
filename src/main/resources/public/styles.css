@@ -6,8 +6,8 @@ body {
     margin: 0;
 }
 
-h1, h2, h3, h4, h5 {
-    font-family: 'Neuton', serif;
+h1, h2, h3, h4, h5, a {
+    font-family: 'Roboto Slab', serif;
     margin: 0;
 }
 
@@ -16,9 +16,9 @@ h1 {
     padding-bottom: 20px;
 }
 
-p, a, b, i, li {
-    font-family: 'Neuton', serif;
-    font-size: 22px;
+p, b, i, li {
+    font-family: 'Roboto', serif;
+    font-size: 20px;
 }
 
 a {
@@ -99,6 +99,7 @@ img {
     font-size: 24px;
     padding: 13px 15px;
     text-decoration: none;
+    font-family: 'Roboto Slab', serif;
 
     color: #fff;
     transition: background-color 0.2s ease-out;
