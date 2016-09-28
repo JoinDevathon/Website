@@ -16,7 +16,7 @@ h1 {
     padding-bottom: 20px;
 }
 
-p, a, b, i {
+p, a, b, i, li {
     font-family: 'Neuton', serif;
     font-size: 22px;
 }
@@ -66,11 +66,6 @@ img {
 .header-main {
     text-align: center;
     padding: 70px 40px;
-}
-
-.header-title {
-    font-size: 64px;
-    font-family: 'Work Sans', monospace;
 }
 
 .header-image {
@@ -143,6 +138,10 @@ img {
 .box-pink {
     color: #fff;
     background: #c790c7;
+}
+
+.box-gray {
+    background: #ddd;
 }
 
 .countdown {
