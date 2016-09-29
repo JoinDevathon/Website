@@ -39,6 +39,9 @@ public class UserDatabase extends HikariDatabase {
     }
 
     public AccountInfo addUser(String username, String email) {
+        if (email == null) {
+            email = "";
+        }
         CallableStatement<ResultSet> statement = new InsertCallableStatement(this, INSERT_USER, new Object[]{username, email});
         try (ResultSet generated = statement.call()) {
             if (generated.first()) {
