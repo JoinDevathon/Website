@@ -1,6 +1,5 @@
 package net.burngames.devathon.routes;
 
-import com.google.common.base.Joiner;
 import net.burngames.devathon.Website;
 import net.burngames.devathon.persistence.Sessions;
 import spark.Request;
