@@ -16,7 +16,7 @@ h1 {
     padding-bottom: 20px;
 }
 
-p, b, i, li {
+p, b, i, li, label {
     font-family: 'Roboto', serif;
     font-size: 20px;
 }

@@ -30,6 +30,7 @@ public class UserDatabase extends HikariDatabase {
 
     private static final String SELECT_USER_BY_USERNAME = "SELECT `id`, `email`, `beam`, `twitch`, `twitter` FROM `devathon`.`users` WHERE `username` = ?";
     private static final String SELECT_USER_BY_ID = "SELECT `username`, `email`, `beam`, `twitch`, `twitter` FROM `devathon`.`users` WHERE `id` = ?";
+    private static final String SET_EMAIL = "UPDATE `devathon`.`users` SET `email` = ? WHERE `id` = ?";
     private static final String SET_BEAM = "UPDATE `devathon`.`users` SET `beam` = ? WHERE `id` = ?";
     private static final String SET_TWITCH = "UPDATE `devathon`.`users` SET `twitch` = ? WHERE `id` = ?";
     private static final String SET_TWITTER = "UPDATE `devathon`.`users` SET `twitter` = ? WHERE `id` = ?";
@@ -52,6 +53,17 @@ public class UserDatabase extends HikariDatabase {
             }
         } catch (Exception e) {
             throw new RuntimeException("Error adding user " + username + " to database, ", e);
+        } finally {
+            statement.close();
+        }
+    }
+
+    public void setEmail(int id, String email) {
+        UpdateCallableStatement statement = new UpdateCallableStatement(this, SET_EMAIL, new Object[]{email, id});
+        try {
+            statement.call();
+        } catch (Exception e) {
+            throw new RuntimeException("Error setting id " + id + "'s email to " + email);
         } finally {
             statement.close();
         }

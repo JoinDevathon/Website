@@ -8,6 +8,10 @@ import spark.Request;
 import spark.Response;
 import spark.TemplateViewRoute;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringJoiner;
+
 /**
  * @author PaulBGD
  */
@@ -25,6 +29,11 @@ public class AccountRoute implements TemplateViewRoute {
         if (info == null) {
             throw new RouteException("An error occurred loading account info.");
         }
-        return new ModelAndView(info.toMap(), "account.mustache");
+        Map<String, Object> map = new HashMap<>(info.toMap());
+        Object email = map.get("email");
+        if (email == null || !(email instanceof String) || !((String) email).contains("@")) {
+            map.put("error", "You haven't entered an email yet! In order to participate you must have a working email.");
+        }
+        return new ModelAndView(map, "account.mustache");
     }
 }

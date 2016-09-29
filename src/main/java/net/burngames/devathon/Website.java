@@ -69,6 +69,7 @@ public class Website {
             Spark.get("/authentication", new AuthenticationRoute());
             Spark.get("/account", new AccountRoute(), new MustacheTemplateEngine());
             Spark.get("/account/update", new AccountUpdateRoute());
+            Spark.post("/account/details", new AccountDetailsRoute());
             Spark.get("/error", new ErrorRoute(), new MustacheTemplateEngine());
 
             Spark.after((request, response) -> {

@@ -7,19 +7,14 @@ import net.burngames.devathon.Website;
 import net.burngames.devathon.persistence.Sessions;
 import net.burngames.devathon.routes.RouteException;
 import net.burngames.devathon.routes.TypedRoute;
-import net.burngames.devathon.routes.auth.base.SimpleAccountInfo;
 import org.json.JSONObject;
-import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.TemplateViewRoute;
-import spark.template.mustache.MustacheTemplateEngine;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
-import java.util.UUID;
 
 /**
  * @author PaulBGD
@@ -99,9 +94,9 @@ public class AuthenticationRoute implements TypedRoute<Void> {
         try {
 
             String username = userJson.getString("login");
-//            String email = userJson.getString("email");
+            String email = userJson.isNull("email") ? null : userJson.getString("email");
 
-            final AccountInfo account = Website.getUserDatabase().addUser(username, null);
+            final AccountInfo account = Website.getUserDatabase().addUser(username, email);
             Sessions sessions = Website.getSessions();
             String token = sessions.init(request, response);
             JSONObject object = new JSONObject();
