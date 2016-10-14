@@ -36,13 +36,15 @@ public abstract class HikariDatabase implements Database {
         HikariConfig conf = new HikariConfig();
         if (configFile.exists()) {
             conf = new HikariConfig("hikari.properties");
-        }
+        } else {
+            conf.setJdbcUrl(url);
+            conf.setUsername(user);
+            conf.setPassword(pass);
+            conf.setMaximumPoolSize(poolSize);
+            conf.setDataSource(new MysqlDataSource());
 
-        conf.setJdbcUrl(url);
-        conf.setUsername(user);
-        conf.setPassword(pass);
-        conf.setMaximumPoolSize(poolSize);
-        conf.setDataSource(new MysqlDataSource());
+            System.out.println("Could not find hikari.properties! Using config..");
+        }
 
         pool = new HikariDataSource(conf);
 
