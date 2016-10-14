@@ -93,14 +93,14 @@ public class TokenGenerator {
     public String getToken(String clientToken) throws RouteException, GeneralSecurityException {
         byte[] encrypted = Base64.getDecoder().decode(clientToken.getBytes());
         if (encrypted.length < 16 + 2 + 32 || encrypted.length > 128) {
-            throw new RouteException("Invalid token.");
+            throw new RouteException("Your token has expired, please log in again.");
         }
         ByteBuffer buffer = ByteBuffer.wrap(encrypted);
         byte[] iv = new byte[16];
         buffer.get(iv);
         short hmacLength = buffer.getShort();
         if (hmacLength < 16 || hmacLength > 64) {
-            throw new RouteException("Invalid token.");
+            throw new RouteException("Your token has expired, please log in again.");
         }
         byte[] hmac = new byte[hmacLength];
         buffer.get(hmac);
@@ -125,11 +125,11 @@ public class TokenGenerator {
         byte[] expectedHmac = mac.doFinal();
 
         if (expectedHmac.length != hmac.length) {
-            throw new RouteException("Invalid token.");
+            throw new RouteException("Your token has expired, please log in again.");
         }
         for (int i = 0; i < hmacLength; i++) {
             if (expectedHmac[i] != hmac[i]) {
-                throw new RouteException("Invalid token.");
+                throw new RouteException("Your token has expired, please log in again.");
             }
         }
         // okay, they didn't modify the hmac. let's decrypt the data now

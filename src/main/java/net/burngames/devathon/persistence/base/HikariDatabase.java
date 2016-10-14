@@ -8,6 +8,7 @@ import net.burngames.devathon.Website;
 import net.burngames.devathon.persistence.Database;
 import net.burngames.devathon.persistence.stmt.UpdateCallableStatement;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -31,7 +32,11 @@ public abstract class HikariDatabase implements Database {
                 user = pr.getProperty("database.user"),
                 pass = pr.getProperty("database.pass");
 
+        File configFile = new File("hikari.properties");
         HikariConfig conf = new HikariConfig();
+        if (configFile.exists()) {
+            conf = new HikariConfig("hikari.properties");
+        }
 
         conf.setJdbcUrl(url);
         conf.setUsername(user);
