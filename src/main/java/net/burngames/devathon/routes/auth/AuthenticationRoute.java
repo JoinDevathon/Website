@@ -102,6 +102,10 @@ public class AuthenticationRoute implements TypedRoute<Void> {
             JSONObject object = new JSONObject();
             object.put("id", account.getId());
             sessions.setSession(token, object);
+        } catch(RouteException e) {
+            // bad token, have them reset
+            response.removeCookie("devathon-session");
+            throw e;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("JSON: " + userJson.toString());

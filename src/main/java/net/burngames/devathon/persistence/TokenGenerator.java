@@ -142,7 +142,7 @@ public class TokenGenerator {
         decryptedBuffer.get(tokenBytes);
         long time = decryptedBuffer.getLong();
         if (System.currentTimeMillis() - time > 0) {
-            throw new RouteException("Invalid token.");
+            throw new RouteException("Your token has expired, please log in again.");
         }
         return Hex.encodeHexString(tokenBytes);
     }
