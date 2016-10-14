@@ -16,9 +16,13 @@ h1 {
     padding-bottom: 20px;
 }
 
-p, b, i, li, label {
+p, b, i, li, label, small, span {
     font-family: 'Roboto', serif;
     font-size: 20px;
+}
+
+small, span {
+    font-size: 12px;
 }
 
 a {
@@ -143,6 +147,10 @@ img {
 
 .box-gray {
     background: #ddd;
+}
+
+#footer {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .error-box {
@@ -308,6 +316,14 @@ img {
     display: block;
     min-height: 60px;
     margin-bottom: 30px;
+}
+
+.trophy {
+    max-width: 100px;
+}
+
+.trophy-text {
+
 }
 
 .center {

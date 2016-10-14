@@ -1,5 +1,6 @@
 package net.burngames.devathon.persistence.users;
 
+import com.google.common.collect.ImmutableMap;
 import net.burngames.devathon.persistence.base.HikariDatabase;
 import net.burngames.devathon.persistence.stmt.CallableStatement;
 import net.burngames.devathon.persistence.stmt.InsertCallableStatement;
@@ -9,6 +10,8 @@ import net.burngames.devathon.routes.auth.AccountInfo;
 import net.burngames.devathon.routes.auth.base.SimpleAccountInfo;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class UserDatabase extends HikariDatabase {
@@ -28,8 +31,8 @@ public class UserDatabase extends HikariDatabase {
 
     private static final String INSERT_USER = "INSERT INTO `devathon`.`users` (`username`, `email`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `email`=`email`";
 
-    private static final String SELECT_USER_BY_USERNAME = "SELECT `id`, `email`, `beam`, `twitch`, `twitter` FROM `devathon`.`users` WHERE `username` = ?";
-    private static final String SELECT_USER_BY_ID = "SELECT `username`, `email`, `beam`, `twitch`, `twitter` FROM `devathon`.`users` WHERE `id` = ?";
+    private static final String SELECT_USER_BY_USERNAME = "SELECT `users`.*, `trophy`.* FROM `devathon`.`users` LEFT JOIN `devathon`.`trophy` ON `devathon`.`users`.`id` = `devathon`.`trophy`.`id` WHERE `users`.`username` = ?";
+    private static final String SELECT_USER_BY_ID = "SELECT `users`.*, `trophy`.* FROM `devathon`.`users` LEFT JOIN `devathon`.`trophy` ON `devathon`.`users`.`id` = `devathon`.`trophy`.`id` WHERE `users`.`id` = ?";
     private static final String SET_EMAIL = "UPDATE `devathon`.`users` SET `email` = ? WHERE `id` = ?";
     private static final String SET_BEAM = "UPDATE `devathon`.`users` SET `beam` = ? WHERE `id` = ?";
     private static final String SET_TWITCH = "UPDATE `devathon`.`users` SET `twitch` = ? WHERE `id` = ?";
@@ -46,7 +49,7 @@ public class UserDatabase extends HikariDatabase {
         CallableStatement<ResultSet> statement = new InsertCallableStatement(this, INSERT_USER, new Object[]{username, email});
         try (ResultSet generated = statement.call()) {
             if (generated.first()) {
-                return new SimpleAccountInfo(generated.getInt(1), username, email, "", "", "");
+                return new SimpleAccountInfo(generated.getInt(1), username, email, "", "", "", ImmutableMap.of());
             } else {
                 // user already exists, grab info
                 return this.getUserByUsername(username);
@@ -110,17 +113,30 @@ public class UserDatabase extends HikariDatabase {
                 results ->
                 {
                     try {
-                        if (!results.next()) {
-                            return null;
+                        boolean assigned = false;
+                        int id = -1;
+                        String email = null;
+                        String beam = null;
+                        String twitch = null;
+                        String twitter = null;
+                        Map<String, String> trophies = new HashMap<>();
+
+                        while (results.next()) {
+                            if (!assigned) {
+                                assigned = true;
+                                id = results.getInt("id");
+                                email = results.getString("email");
+                                beam = results.getString("beam");
+                                twitch = results.getString("twitch");
+                                twitter = results.getString("twitter");
+                            }
+                            String trophy = results.getString("trophy");
+                            if (trophy != null) {
+                                trophies.put(results.getString("trophy"), results.getString("name"));
+                            }
                         }
 
-                        int id = results.getInt("id");
-                        String email = results.getString("email");
-                        String beam = results.getString("beam");
-                        String twitch = results.getString("twitch");
-                        String twitter = results.getString("twitter");
-
-                        return new SimpleAccountInfo(id, username, email, beam, twitch, twitter);
+                        return new SimpleAccountInfo(id, username, email, beam, twitch, twitter, trophies);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -148,17 +164,30 @@ public class UserDatabase extends HikariDatabase {
                 results ->
                 {
                     try {
-                        if (!results.next()) {
-                            return null;
+                        boolean assigned = false;
+                        String username = null;
+                        String email = null;
+                        String beam = null;
+                        String twitch = null;
+                        String twitter = null;
+                        Map<String, String> trophies = new HashMap<>();
+
+                        while (results.next()) {
+                            if (!assigned) {
+                                assigned = true;
+                                username = results.getString("username");
+                                email = results.getString("email");
+                                beam = results.getString("beam");
+                                twitch = results.getString("twitch");
+                                twitter = results.getString("twitter");
+                            }
+                            String trophy = results.getString("trophy");
+                            if (trophy != null) {
+                                trophies.put(results.getString("trophy"), results.getString("name"));
+                            }
                         }
 
-                        String username = results.getString("username");
-                        String email = results.getString("email");
-                        String beam = results.getString("beam");
-                        String twitch = results.getString("twitch");
-                        String twitter = results.getString("twitter");
-
-                        return new SimpleAccountInfo(id, username, email, beam, twitch, twitter);
+                        return new SimpleAccountInfo(id, username, email, beam, twitch, twitter, trophies);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

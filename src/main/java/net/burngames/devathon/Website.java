@@ -2,6 +2,7 @@ package net.burngames.devathon;
 
 import net.burngames.devathon.persistence.Sessions;
 import net.burngames.devathon.persistence.TokenGenerator;
+import net.burngames.devathon.persistence.users.TrophyDatabase;
 import net.burngames.devathon.persistence.users.UserDatabase;
 import net.burngames.devathon.routes.*;
 import net.burngames.devathon.routes.auth.AuthenticationRoute;
@@ -24,6 +25,7 @@ public class Website {
 
     private static Properties properties;
     private static UserDatabase userDatabase;
+    private static TrophyDatabase trophyDatabase;
     private static JedisPool pool;
     private static Sessions sessions;
     private static TokenGenerator tokenGenerator;
@@ -44,6 +46,7 @@ public class Website {
         }
         System.out.println("Loading database..");
         Website.userDatabase = new UserDatabase();
+        Website.trophyDatabase = new TrophyDatabase();
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxWaitMillis(1000);
         jedisPoolConfig.setMaxTotal(32);
@@ -68,6 +71,7 @@ public class Website {
             Spark.get("/register", new RegisterRoute());
             Spark.get("/authentication", new AuthenticationRoute());
             Spark.get("/account", new AccountRoute(), new MustacheTemplateEngine());
+            Spark.get("/user/:user", new OtherAccountRoute(), new MustacheTemplateEngine());
             Spark.get("/account/update", new AccountUpdateRoute());
             Spark.post("/account/details", new AccountDetailsRoute());
             Spark.get("/error", new ErrorRoute(), new MustacheTemplateEngine());
@@ -96,6 +100,10 @@ public class Website {
 
     public static UserDatabase getUserDatabase() {
         return userDatabase;
+    }
+
+    public static TrophyDatabase getTrophyDatabase() {
+        return trophyDatabase;
     }
 
     public static JedisPool getPool() {

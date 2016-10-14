@@ -27,8 +27,10 @@ public interface AccountInfo {
      */
     String getEmail();
 
+    Map<String, String> getTrophies();
+
     /**
-     * Returns a map containing `id`, `username`, and `email`
+     * Returns a map containing `id`, `username`, `email`, and `trophies`
      * @return a map
      */
     Map<String, Object> toMap();

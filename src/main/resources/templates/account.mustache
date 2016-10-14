@@ -4,18 +4,34 @@
     <div class="header-main">
         <div class="header-image-small">{{> logo}}</div>
         <p class="header-desc">{{username}}'s User Page</p>
+        {{^readonly}}
+            <a href="/user/{{username}}" class="social-media">View as Guest</a>
+        {{/readonly}}
     </div>
 
     <div class="navbar-info-container">
         <p class="navbar-info-desc">Trophy Case</p>
-        <div class="navbar-info">
-            <p class="center">You don't have any trophies yet! Participate in the contest to earn new and unique trophies!</p>
+        <div class="navbar-info center">
+            {{^trophies}}
+                <p class="center">You don't have any trophies yet! Participate in the contest to earn new and unique trophies!</p>
+            {{/trophies}}
+            {{#trophies}}
+                <div class="trophy">
+                    <img src="/images/{{trophy}}.svg" alt="{{name}}"/>
+                    <span class="trophy-text">{{name}}</span>
+                </div>
+            {{/trophies}}
         </div>
     </div>
 
     <div class="navbar-tabs">
         <a href="/" class="navbar-tab">Home</a>
-        <a href="/" class="navbar-tab">Log Out</a>
+        {{#readonly}}
+            <a href="/account" class="navbar-tab">Log In</a>
+        {{/readonly}}
+        {{^readonly}}
+            <a href="/" class="navbar-tab">Log Out</a>
+        {{/readonly}}
     </div>
 </div>
 
@@ -27,40 +43,57 @@
             </div>
         {{/error}}
 
-        <p>Account Details</p>
+        {{^readonly}}
+            <p>Account Details</p>
 
-        <form method="post" action="/account/details">
-            <label for="email">Email</label>
-            <input id="email" type="email" name="email" placeholder="Email" value="{{email}}">
+            <form method="post" action="/account/details">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" placeholder="Email" value="{{email}}">
 
-            <input type="submit">
-        </form>
+                <input type="submit">
+            </form>
+        {{/readonly}}
 
-        <p>Your Social Media</p>
+        <p>{{^readonly}}Your {{/readonly}}Social Media</p>
         <div class="account-media-container">
             <div class="account-media account-media-beam">
                 <div class="account-media-logo">{{> beam-logo}}</div>
                 <h2>Beam</h2>
 
-                <input id="beam" class="account-media-input" value="{{beam}}"/>
+                <input id="beam" class="account-media-input" disabled="disabled" value="{{beam}}"/>
 
-                <a href="#" data-for="beam" class="social-media">Edit</a>
+                {{#readonly}}
+                    <a href="https://beam.pro/{{beam}}" target="_blank" class="social-media">Go To</a>
+                {{/readonly}}
+                {{^readonly}}
+                    <a href="#" data-for="beam" class="social-media">Edit</a>
+                {{/readonly}}
             </div>
             <div class="account-media account-media-twitter">
                 <div class="account-media-logo">{{> twitter-logo}}</div>
                 <h2>Twitter</h2>
 
-                <input id="twitter" class="account-media-input" value="{{twitter}}"/>
+                <input id="twitter" class="account-media-input" disabled="disabled" value="{{twitter}}"/>
 
-                <a href="#" data-for="twitter" class="social-media">Edit</a>
+                {{#readonly}}
+                    <a href="https://twitter.com/{{twitter}}" target="_blank" class="social-media">Go To</a>
+                {{/readonly}}
+                {{^readonly}}
+                    <a href="#" data-for="twitter" class="social-media">Edit</a>
+                {{/readonly}}
             </div>
             <div class="account-media account-media-twitch">
                 <div class="account-media-logo">{{> twitch-logo}}</div>
                 <h2>Twitch</h2>
 
-                <input id="twitch" class="account-media-input" value="{{twitch}}"/>
+                <input id="twitch" class="account-media-input" disabled="disabled" value="{{twitch}}"/>
 
-                <a href="#" data-for="twitch" class="social-media">Edit</a>
+                {{#readonly}}
+                    <a href="https://twitch.tv/{{twitch}}" target="_blank" class="social-media">Go To</a>
+                {{/readonly}}
+                {{^readonly}}
+                    <a href="#" data-for="twitch" class="social-media">Edit</a>
+                {{/readonly}}
             </div>
         </div>
     </div>

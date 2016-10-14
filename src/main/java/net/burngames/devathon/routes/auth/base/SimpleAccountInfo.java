@@ -19,14 +19,16 @@ public class SimpleAccountInfo implements AccountInfo {
     private final String beam;
     private final String twitch;
     private final String twitter;
+    private final Map<String, String> trophies;
 
-    public SimpleAccountInfo(int id, String username, String email, String beam, String twitch, String twitter) {
+    public SimpleAccountInfo(int id, String username, String email, String beam, String twitch, String twitter, Map<String, String> trophies) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.beam = beam;
         this.twitch = twitch;
         this.twitter = twitter;
+        this.trophies = trophies;
     }
 
     @Override
@@ -48,6 +50,7 @@ public class SimpleAccountInfo implements AccountInfo {
                 .put("beam", this.beam)
                 .put("twitch", this.twitch)
                 .put("twitter", this.twitter)
+                .put("trophies", this.trophies)
                 .build();
     }
 
@@ -66,6 +69,11 @@ public class SimpleAccountInfo implements AccountInfo {
 
     public String getTwitter() {
         return twitter;
+    }
+
+    @Override
+    public Map<String, String> getTrophies() {
+        return trophies;
     }
 
     @Override
