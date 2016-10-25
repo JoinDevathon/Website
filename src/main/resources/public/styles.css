@@ -322,6 +322,10 @@ img {
     max-width: 100px;
 }
 
+.trophy > object {
+    max-width: 100px;
+}
+
 .trophy-text {
 
 }
