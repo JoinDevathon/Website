@@ -320,12 +320,14 @@ img {
 
 .trophy {
     max-width: 100px;
+    margin: 10px 20px;
     display: inline-block;
     vertical-align: top;
 }
 
 .trophy > object {
-    max-width: 100px;
+    width: 100px;
+    overflow: hidden;
 }
 
 .trophy-text {

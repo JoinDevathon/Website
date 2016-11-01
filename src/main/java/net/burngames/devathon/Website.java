@@ -58,6 +58,7 @@ public class Website {
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "1234"));
         int threads = Integer.parseInt(System.getenv().getOrDefault("THREADS", "6"));
         try {
+            Spark.ipAddress("10.0.0.23");
             Spark.port(port);
             Spark.threadPool(threads);
 
