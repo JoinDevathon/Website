@@ -170,9 +170,9 @@ img {
     background-image: linear-gradient(to right bottom, #EF9A9A 0%, #F44236 100%);
 }
 
-.countdown {
+#status {
+
     margin-top: 38px;
-    font-family: 'Work Sans', monospace;
 }
 
 .countdown-box {

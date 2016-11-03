@@ -6,6 +6,7 @@
             <div class="header-image">{{> logo}}</div>
         </h1>
         <p class="header-desc">The only 24 hour Bukkit Plugin Development Contest for everyone.</p>
+        <p id="status">Starts In</p>
         <div class="countdown">
             <div class="countdown-box">
                 <b class="countdown-title">Days</b>
@@ -124,7 +125,8 @@
 
 <script>
     (function () {
-        var start = 1478350800000;
+        var START = 1478350800000;
+        var END = 1478440800000;
 
         var SECOND = 1000;
         var MINUTE = SECOND * 60;
@@ -135,14 +137,24 @@
         var COUNTDOWN_HOURS = document.getElementById('countdown-hours');
         var COUNTDOWN_MINUTES = document.getElementById('countdown-minutes');
         var COUNTDOWN_SECONDS = document.getElementById('countdown-seconds');
+        var STATUS = document.getElementById('status');
 
         function updateCountdown() {
             var now = new Date().getTime();
-            var msDiff = start - now;
-            if (msDiff < 0) {
-                // event started, switch to when the event ends?
+            var msDiff;
+            if (now > END) {
+                STATUS.innerHTML = 'Contest Ended';
+                COUNTDOWN_DAYS.innerHTML = COUNTDOWN_HOURS.innerHTML = COUNTDOWN_MINUTES.innerHTML = COUNTDOWN_SECONDS.innerHTML = '0';
+                clearInterval(interval);
                 return;
+            } else if (now > START) {
+                msDiff = END - now;
+                STATUS.innerHTML = 'Ends In';
+            } else {
+                msDiff = START - now;
+                STATUS.innerHTML = 'Starts In';
             }
+
             var days = Math.floor(msDiff / DAY);
             msDiff -= DAY * days;
 
@@ -161,8 +173,8 @@
             COUNTDOWN_SECONDS.innerHTML = String(seconds);
         }
 
+        var interval = setInterval(updateCountdown, 1000);
         updateCountdown(); // update asap
-        setInterval(updateCountdown, 1000);
     })();
 </script>
 </body>
