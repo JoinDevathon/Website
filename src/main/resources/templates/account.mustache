@@ -50,7 +50,7 @@
                 <label for="email">Email</label>
                 <input id="email" type="email" name="email" placeholder="Email" value="{{email}}">
 
-                <input type="submit">
+                <input type="submit" value="Update Details">
             </form>
         {{/readonly}}
 
@@ -114,7 +114,7 @@
 
                 input.setAttribute('disabled', 'disabled');
 
-                label.addEventListener('click', function onClick(e) {
+                function onClick(e) {
                     if (label.innerHTML === 'Save') {
                         var value = input.value;
                         var request = new XMLHttpRequest();
@@ -135,6 +135,13 @@
                     }
                     e.preventDefault();
                     return false;
+                }
+
+                label.addEventListener('click', onClick);
+                input.addEventListener('keydown', function onKeyDown(e) {
+                    if (e.keyCode === 13) {
+                        return onClick(e);
+                    }
                 });
             })();
         }

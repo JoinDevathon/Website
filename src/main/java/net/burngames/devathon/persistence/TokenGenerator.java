@@ -4,6 +4,7 @@ import net.burngames.devathon.routes.RouteException;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.impl.client.SystemDefaultCredentialsProvider;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import javax.crypto.*;
@@ -38,10 +39,12 @@ public class TokenGenerator {
         byte[] token;
         String tokenString;
         // check to make sure our token is random
+        Jedis resource = this.pool.getResource();
         do {
             token = this.generateToken();
             tokenString = Hex.encodeHexString(token);
-        } while (this.pool.getResource().exists(this.prefix + tokenString));
+        } while (resource.exists(this.prefix + tokenString));
+        resource.close();
 
         String clientToken = this.generateClientToken(token);
         return new TokenAndClientToken(tokenString, clientToken);
